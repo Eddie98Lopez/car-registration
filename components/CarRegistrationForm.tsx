@@ -5,59 +5,32 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Truck, User } from "lucide-react";
+import { useVehicleRegistration } from "./VehicleProvider";
 
-const defaultState = {
-  make: "",
-  model: "",
-  year: "",
-  lic_plate_num: "",
-  judge_category: "",
-  driver: {
-    firstName: "",
-    lastName: "",
-    phone: "",
-  },
-};
-
-export default function CarRegistrationForm({ registeredVehicles, ...props }) {
-  const { items, setItems } = registeredVehicles;
-  const { editState, setEditState } = props.editState;
-
-  const [values, setValues] = useState(defaultState);
+export default function CarRegistrationForm() {
+  const { state, updateDriverField, updateField, save, cancel } =
+    useVehicleRegistration();
+  const values = state.formValues;
 
   // 🔹 top-level fields (make, model, year, etc.)
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setValues((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    updateField(name, value);
   };
 
   // 🔹 nested driver fields
   const handleDriverChange = (e) => {
     const { name, value } = e.target;
-
-    setValues((prev) => ({
-      ...prev,
-      driver: {
-        ...prev.driver,
-        [name]: value,
-      },
-    }));
+    updateDriverField(name, value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setItems([...items, values]);
-    setValues(defaultState);
-    setEditState(false);
+    save();
   };
 
   const handleCancel = (e) => {
-    setValues(defaultState);
-    setEditState(false);
+    cancel();
   };
 
   return (

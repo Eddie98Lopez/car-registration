@@ -3,6 +3,15 @@ import { Item, ItemContent } from "@/components/ui/item";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Car } from "lucide-react";
+import { useVehicleRegistration } from "./VehicleProvider";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "./ui/empty";
 
 export type Driver = {
   firstName: string;
@@ -19,13 +28,7 @@ export type Car = {
   driver: Driver;
 };
 
-const CarsItem = ({
-  car,
-  setEditState,
-}: {
-  car: Car;
-  setEditState: Dispatch<boolean>;
-}) => {
+const CarsItem = ({ car, handleEdit, handleDelete }) => {
   const { make, model, year, driver, lic_plate_num, judge_category } = car;
   return (
     <Item variant="outline">
@@ -52,7 +55,7 @@ const CarsItem = ({
         </div>
 
         <div className="ml-auto flex items-center">
-          <Button variant="ghost" onClick={() => setEditState(true)}>
+          <Button variant="ghost" onClick={handleEdit}>
             <Image
               src="/icons/icon/edit.png"
               alt="edit car"
@@ -60,7 +63,7 @@ const CarsItem = ({
               height={24}
             />
           </Button>
-          <Button variant="ghost">
+          <Button variant="ghost" onClick={handleDelete}>
             <Image
               src="/icons/icon/trash-2.png"
               alt="delete car"
@@ -74,32 +77,41 @@ const CarsItem = ({
   );
 };
 
-const CarsItemList = ({
-  cars,
-  setEditState,
-}: {
-  cars: Car[];
-  setEditState: Dispatch<boolean>;
-}) => {
+const CarsItemList = ({ cars }) => {
+  const { remove, startEdit, startCreate } = useVehicleRegistration();
   return (
     <>
-      <ul className="space-y-2">
+      <ul className="flex flex-col gap-3">
+        {cars.length === 0 && (
+          <Empty className="mb-0">
+            <EmptyHeader>
+              <EmptyMedia variant="icon">
+                <Image
+                  src="/icons/icon/car.png"
+                  height={24}
+                  width={24}
+                  alt="car-icon"
+                />
+              </EmptyMedia>
+              <EmptyTitle>Registered Vehicles</EmptyTitle>
+              <EmptyDescription>
+                You haven&apos;t registered any vehicles for the show yet. Get
+                started by adding your first vehicle.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        )}
         {cars.map((car, i) => {
           return (
-            <CarsItem key={`car-${i}`} car={car} setEditState={setEditState} />
+            <CarsItem
+              key={`car-${i}`}
+              car={car}
+              handleEdit={() => startEdit(i)}
+              handleDelete={() => remove(i)}
+            />
           );
         })}
       </ul>
-      <Button
-        disabled={cars.length >= 5}
-        className="w-full bg-gray-50"
-        variant={"outline"}
-        onClick={() => {
-          setEditState(true);
-        }}
-      >
-        Add Car
-      </Button>
     </>
   );
 };

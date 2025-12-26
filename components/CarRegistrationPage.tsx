@@ -4,33 +4,30 @@ import { FormPageNav, FormPage } from "./FormPage";
 import { Button } from "./ui/button";
 import { useWizard } from "@/components/MulitPageForm";
 import CarRegistrationForm from "./CarRegistrationForm";
+import { useVehicleRegistration } from "./VehicleProvider";
 
-const dummyCars = [
-  {
-    make: "string",
-    model: "string",
-    year: 2009,
-    lic_plate_num: "string",
-    judge_category: "string",
-    driver: { firstName: "Driver", lastName: "Name", phone: "5594445555" },
-  },
-];
-
-const CarRegistrationPage = ({ registeredVehicles }) => {
+const CarRegistrationPage = () => {
   const [editState, setEditState] = useState(false);
-  const { items, setItems } = registeredVehicles;
+  const { state, startCreate } = useVehicleRegistration();
+  console.log(useVehicleRegistration());
   const wizard = useWizard();
 
   return (
     <FormPage>
-      {!editState && <CarsItemList cars={items} setEditState={setEditState} />}
-      {editState && (
-        <CarRegistrationForm
-          registeredVehicles={registeredVehicles}
-          editState={{ editState, setEditState }}
-        />
+      {state.mode == "list" && (
+        <CarsItemList cars={state.items} handleAddClick={startCreate} />
       )}
-      {!editState && (
+      {state.mode == "form" && <CarRegistrationForm />}
+
+      <Button
+        disabled={state.items.length >= 5}
+        className="w-full bg-gray-50"
+        variant={"outline"}
+        onClick={() => startCreate()}
+      >
+        Add Car
+      </Button>
+      {state.mode == "list" && (
         <FormPageNav>
           <Button
             disabled={wizard.isFirst}
