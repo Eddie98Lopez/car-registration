@@ -6,11 +6,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Truck, User } from "lucide-react";
 import { useVehicleRegistration } from "./VehicleProvider";
+import { vehicleSchema, flattenError } from "./utils/vehicleSchema";
 
 export default function CarRegistrationForm() {
-  const { state, updateDriverField, updateField, save, cancel } =
+  const { state, updateDriverField, updateField, save, cancel, updateErrors } =
     useVehicleRegistration();
   const values = state.formValues;
+  const errors = state.formValueErrs;
 
   // 🔹 top-level fields (make, model, year, etc.)
   const handleChange = (e) => {
@@ -26,7 +28,17 @@ export default function CarRegistrationForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    save();
+
+    const isValidated = vehicleSchema.safeParse(values);
+
+    //console.log(isValidated);
+
+    if (!isValidated.success) {
+      console.log(flattenError(isValidated.error));
+      updateErrors(flattenError(isValidated.error).fieldErrors);
+    } else {
+      save();
+    }
   };
 
   const handleCancel = (e) => {
@@ -34,7 +46,7 @@ export default function CarRegistrationForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <form onSubmit={handleSubmit} className="space-y-5">
       {/* =======================
           1) Truck Information
          ======================= */}
@@ -63,6 +75,7 @@ export default function CarRegistrationForm() {
               onChange={handleChange}
               placeholder="e.g., Ford"
             />
+            <p className="text-xs text-red-600">{errors.make[0]}</p>
           </div>
 
           {/* Model */}
@@ -75,6 +88,7 @@ export default function CarRegistrationForm() {
               onChange={handleChange}
               placeholder="e.g., F-100"
             />
+            <p className="text-xs text-red-600">{errors.model[0]}</p>
           </div>
 
           {/* Year */}
@@ -88,6 +102,7 @@ export default function CarRegistrationForm() {
               onChange={handleChange}
               placeholder="e.g., 1967"
             />
+            <p className="text-xs text-red-600">{errors.year[0]}</p>
           </div>
 
           {/* License Plate */}
@@ -100,6 +115,7 @@ export default function CarRegistrationForm() {
               onChange={handleChange}
               placeholder="e.g., 7ABC123"
             />
+            <p className="text-xs text-red-600">{errors.lic_plate_num[0]}</p>
           </div>
 
           {/* Judging Category */}
@@ -121,6 +137,7 @@ export default function CarRegistrationForm() {
               <option value="workTruck">Work Truck</option>
               <option value="offRoad">Off-Road</option>
             </select>
+            <p className="text-xs text-red-600">{errors.judge_category[0]}</p>
           </div>
         </div>
       </div>

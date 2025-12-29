@@ -18,8 +18,6 @@ export default function VendorWizard() {
     phone: "",
   });
 
-  const [items, setItems] = useState([]);
-
   return (
     <VehicleRegistrationProvider>
       <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -38,7 +36,7 @@ export default function VendorWizard() {
             },
             {
               id: "review",
-              render: () => <ReviewPage />,
+              render: () => <ReviewPage contact={contact} />,
             },
           ]}
         />

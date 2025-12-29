@@ -17,6 +17,15 @@ export type Vehicle = {
   driver: Driver;
 };
 
+export type VehicleErrors = {
+  make?: string[];
+  model?: string[];
+  year?: string[]; // keep as string for inputs; cast later
+  lic_plate_num?: string[];
+  judge_category?: string[];
+  driver?: Driver;
+};
+
 export const defaultVehicle: Vehicle = {
   make: "",
   model: "",
@@ -26,11 +35,20 @@ export const defaultVehicle: Vehicle = {
   driver: { firstName: "", lastName: "", phone: "" },
 };
 
+const defaultErrors = {
+  make: [""],
+  model: [""],
+  year: [""], // keep as string for inputs; cast later
+  lic_plate_num: [""],
+  judge_category: [""],
+};
+
 type Mode = "list" | "form";
 
 type State = {
   items: Vehicle[];
   formValues: Vehicle;
+  formValueErrs: VehicleErrors;
   mode: Mode;
   editIndex: number | null;
 };
@@ -44,7 +62,11 @@ type Action =
   | { type: "UPDATE_ALL"; vehicle: Vehicle }
   | { type: "SAVE" }
   | { type: "SET_ITEMS"; items: Vehicle[] }
-  | { type: "REMOVE"; index: number };
+  | { type: "REMOVE"; index: number }
+  | {
+      type: "UPDATE_VEHICLE_ERRS";
+      errors: VehicleErrors;
+    };
 
 function cloneVehicle(v: Vehicle): Vehicle {
   // structuredClone exists in modern browsers; JSON fallback is fine for plain data
@@ -59,6 +81,7 @@ function createInitialState(initialItems: Vehicle[] = []): State {
   return {
     items: initialItems,
     formValues: defaultVehicle,
+    formValueErrs: defaultErrors,
     mode: "list",
     editIndex: null,
   };
@@ -93,6 +116,7 @@ function reducer(state: State, action: Action): State {
         mode: "list",
         editIndex: null,
         formValues: defaultVehicle,
+        formValueErrs: defaultErrors,
       };
 
     case "UPDATE_FIELD":
@@ -102,6 +126,11 @@ function reducer(state: State, action: Action): State {
           ...state.formValues,
           [action.name]: action.value,
         },
+      };
+    case "UPDATE_VEHICLE_ERRS":
+      return {
+        ...state,
+        formValueErrs: { ...defaultErrors, ...action.errors },
       };
 
     case "UPDATE_DRIVER_FIELD":
@@ -127,6 +156,7 @@ function reducer(state: State, action: Action): State {
           mode: "list",
           editIndex: null,
           formValues: defaultVehicle,
+          formValueErrs: defaultErrors,
         };
       }
 
@@ -221,6 +251,8 @@ export function useVehicleRegistration() {
     save: () => dispatch({ type: "SAVE" }),
     setItems: (items: Vehicle[]) => dispatch({ type: "SET_ITEMS", items }),
     remove: (index: number) => dispatch({ type: "REMOVE", index }),
+    updateErrors: (fieldErrors: VehicleErrors) =>
+      dispatch({ type: "UPDATE_VEHICLE_ERRS", errors: fieldErrors }),
   };
 
   return { state, ...actions };

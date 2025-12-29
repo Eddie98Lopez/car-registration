@@ -9,8 +9,9 @@ import { useVehicleRegistration } from "./VehicleProvider";
 const CarRegistrationPage = () => {
   const [editState, setEditState] = useState(false);
   const { state, startCreate } = useVehicleRegistration();
-  console.log(useVehicleRegistration());
+
   const wizard = useWizard();
+  const disabled = !(state.items.length >= 1);
 
   return (
     <FormPage>
@@ -19,14 +20,16 @@ const CarRegistrationPage = () => {
       )}
       {state.mode == "form" && <CarRegistrationForm />}
 
-      <Button
-        disabled={state.items.length >= 5}
-        className="w-full bg-gray-50"
-        variant={"outline"}
-        onClick={() => startCreate()}
-      >
-        Add Car
-      </Button>
+      {state.mode === "list" && state.items.length < 5 && (
+        <Button
+          disabled={state.items.length >= 5}
+          className="w-full bg-gray-50"
+          variant={"outline"}
+          onClick={() => startCreate()}
+        >
+          Add Car
+        </Button>
+      )}
       {state.mode == "list" && (
         <FormPageNav>
           <Button
@@ -37,7 +40,7 @@ const CarRegistrationPage = () => {
             Prev
           </Button>
 
-          <Button onClick={wizard.goNext} disabled={wizard.isLast}>
+          <Button onClick={wizard.goNext} disabled={disabled}>
             Next
           </Button>
         </FormPageNav>
