@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CarsItemList, Cars } from "./CarsItemList";
+import { CarsItemList, CarsItem } from "./CarsItemList";
 import { FormPageNav, FormPage } from "./FormPage";
 import { Button } from "./ui/button";
 import { useWizard } from "@/components/MulitPageForm";
@@ -8,7 +8,7 @@ import { useVehicleRegistration } from "./VehicleProvider";
 
 const CarRegistrationPage = () => {
   const [editState, setEditState] = useState(false);
-  const { state, startCreate } = useVehicleRegistration();
+  const { state, startCreate, startEdit, remove } = useVehicleRegistration();
 
   const wizard = useWizard();
   const disabled = !(state.items.length >= 1);
@@ -16,7 +16,18 @@ const CarRegistrationPage = () => {
   return (
     <FormPage>
       {state.mode == "list" && (
-        <CarsItemList cars={state.items} handleAddClick={startCreate} />
+        <CarsItemList cars={state.items}>
+          {state.items.map((car, i) => {
+            return (
+              <CarsItem
+                key={`car-${i}`}
+                car={car}
+                handleEdit={() => startEdit(i)}
+                handleDelete={() => remove(i)}
+              />
+            );
+          })}
+        </CarsItemList>
       )}
       {state.mode == "form" && <CarRegistrationForm />}
 

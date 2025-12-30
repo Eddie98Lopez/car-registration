@@ -1,7 +1,7 @@
 import React from "react";
 import { FormPageNav, FormPage } from "./FormPage";
 import { useVehicleRegistration } from "./VehicleProvider";
-import { CarsItemList } from "./CarsItemList";
+import { CarsItemList, CarsItem } from "./CarsItemList";
 import { Separator } from "@radix-ui/react-separator";
 import { Button } from "./ui/button";
 import { useWizard } from "./MulitPageForm";
@@ -10,6 +10,7 @@ import { Item, ItemActions, ItemContent } from "./ui/item";
 import { Truck, User } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+
 const registrationPrice = 250;
 
 export const ContactInfoItem = ({ contact }) => {
@@ -36,7 +37,7 @@ export const ContactInfoItem = ({ contact }) => {
 };
 
 const ReviewPage = ({ contact }) => {
-  const { state } = useVehicleRegistration();
+  const { state, startEdit, remove } = useVehicleRegistration();
   const wizard = useWizard();
   return (
     <FormPage>
@@ -64,7 +65,21 @@ const ReviewPage = ({ contact }) => {
             />
             <p>Vehicle Entries</p>
           </div>
-          <CarsItemList cars={state.items} />
+          <CarsItemList cars={state.items}>
+            {state.items.map((car, i) => {
+              return (
+                <CarsItem
+                  key={`car-${i}`}
+                  car={car}
+                  handleEdit={() => {
+                    startEdit(i);
+                    wizard.goTo(1);
+                  }}
+                  handleDelete={() => remove(i)}
+                />
+              );
+            })}
+          </CarsItemList>
         </div>
         <div className="w-full text-right">
           Total: {state.items.length * registrationPrice}

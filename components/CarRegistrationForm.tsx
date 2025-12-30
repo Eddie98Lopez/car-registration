@@ -7,12 +7,14 @@ import { Button } from "@/components/ui/button";
 import { Truck, User } from "lucide-react";
 import { useVehicleRegistration } from "./VehicleProvider";
 import { vehicleSchema, flattenError } from "./utils/vehicleSchema";
+import { VehicleErrors } from "./VehicleProvider";
 
 export default function CarRegistrationForm() {
   const { state, updateDriverField, updateField, save, cancel, updateErrors } =
     useVehicleRegistration();
   const values = state.formValues;
   const errors = state.formValueErrs;
+  const lic_plates = state.items.map((item) => item.lic_plate_num);
 
   // 🔹 top-level fields (make, model, year, etc.)
   const handleChange = (e) => {
@@ -30,12 +32,27 @@ export default function CarRegistrationForm() {
     e.preventDefault();
 
     const isValidated = vehicleSchema.safeParse(values);
-
     //console.log(isValidated);
 
-    if (!isValidated.success) {
-      console.log(flattenError(isValidated.error));
-      updateErrors(flattenError(isValidated.error).fieldErrors);
+    if (
+      !isValidated.success ||
+      (lic_plates.includes(values.lic_plate_num) &&
+        state.editIndex !== lic_plates.indexOf(values.lic_plate_num))
+    ) {
+      let updatedErrs: VehicleErrors = {};
+
+      if (!isValidated.success) {
+        const zodErrs = flattenError(isValidated.error).fieldErrors;
+        updatedErrs = { ...zodErrs };
+      }
+
+      if (
+        lic_plates.includes(values.lic_plate_num) &&
+        state.editIndex !== lic_plates.indexOf(values.lic_plate_num)
+      ) {
+        updatedErrs.lic_plate_num = ["License plate already registered"];
+      }
+      updateErrors(updatedErrs);
     } else {
       save();
     }

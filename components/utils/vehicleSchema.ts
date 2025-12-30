@@ -1,10 +1,15 @@
 import * as z from "zod";
 
+const licensePlateRegex = /^(?=.{2,8}$)[A-Z0-9]+(?:[ -]?[A-Z0-9]+)*$/i;
+
 export const vehicleSchema = z.object({
   make: z.string().min(2, "At least 2 characters are required"),
   model: z.string().min(2, "At least 2 characters are required"),
   year: z.string().min(2, "At least 2 characters are required"), // keep as z.string() for inputs; cast later
-  lic_plate_num: z.string().min(2, "At least 2 characters are required"),
+  lic_plate_num: z
+    .string()
+    .trim()
+    .regex(licensePlateRegex, "Invalid license plate format"),
   judge_category: z.enum(
     ["classic", "custom", "restomod", "workTruck", "offRoad"],
     "Please select one of the given categories"

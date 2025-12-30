@@ -77,7 +77,7 @@ const CarsItem = ({ car, handleEdit, handleDelete }) => {
   );
 };
 
-const CarsItemList = ({ cars }) => {
+const CarsItemList = ({ cars, children }) => {
   const { remove, startEdit, startCreate } = useVehicleRegistration();
   return (
     <>
@@ -101,16 +101,7 @@ const CarsItemList = ({ cars }) => {
             </EmptyHeader>
           </Empty>
         )}
-        {cars.map((car, i) => {
-          return (
-            <CarsItem
-              key={`car-${i}`}
-              car={car}
-              handleEdit={() => startEdit(i)}
-              handleDelete={() => remove(i)}
-            />
-          );
-        })}
+        {children}
       </ul>
     </>
   );
