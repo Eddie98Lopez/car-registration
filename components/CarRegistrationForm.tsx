@@ -6,14 +6,26 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Truck, User } from "lucide-react";
 import { useVehicleRegistration } from "./VehicleProvider";
-import { vehicleSchema, flattenError } from "./utils/vehicleSchema";
+import { vehicleSchema, driverSchema } from "./utils/vehicleSchema";
 import { VehicleErrors } from "./VehicleProvider";
+import { validateFormFields } from "./utils/vehicleSchema";
+import { checkForExistingPlate } from "./utils/vehicleSchema";
+import { omit } from "zod/mini";
+
+function omitKey<T extends Record<string, any>>(
+  original: T,
+  keyToRemove: string
+): Omit<T, typeof keyToRemove> {
+  const { [keyToRemove]: _, ...rest } = original;
+  return rest;
+}
 
 export default function CarRegistrationForm() {
   const { state, updateDriverField, updateField, save, cancel, updateErrors } =
     useVehicleRegistration();
   const values = state.formValues;
   const errors = state.formValueErrs;
+  console.log(errors);
   const lic_plates = state.items.map((item) => item.lic_plate_num);
 
   // 🔹 top-level fields (make, model, year, etc.)
@@ -31,31 +43,35 @@ export default function CarRegistrationForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const isValidated = vehicleSchema.safeParse(values);
-    //console.log(isValidated);
+    const validationResult = validateFormFields(vehicleSchema, values);
+    // Todo configure seperate schema just for validating driver const validatedDriver = validateFormFields(driverSchema, values.driver);
+    const isPlateDuplicated = checkForExistingPlate(
+      lic_plates,
+      values.lic_plate_num
+    );
+    let updatedErrs: VehicleErrors = {};
 
-    if (
-      !isValidated.success ||
-      (lic_plates.includes(values.lic_plate_num) &&
-        state.editIndex !== lic_plates.indexOf(values.lic_plate_num))
-    ) {
-      let updatedErrs: VehicleErrors = {};
+    console.log(validationResult);
+    console.log(errors.driver);
 
-      if (!isValidated.success) {
-        const zodErrs = flattenError(isValidated.error).fieldErrors;
-        updatedErrs = { ...zodErrs };
-      }
-
-      if (
-        lic_plates.includes(values.lic_plate_num) &&
-        state.editIndex !== lic_plates.indexOf(values.lic_plate_num)
-      ) {
-        updatedErrs.lic_plate_num = ["License plate already registered"];
-      }
-      updateErrors(updatedErrs);
-    } else {
-      save();
+    if (!validationResult.isValdiated) {
+      updatedErrs = {
+        ...validationResult.errors,
+      };
     }
+    if (
+      isPlateDuplicated &&
+      lic_plates.indexOf(values.lic_plate_num) !== state.editIndex
+    ) {
+      updatedErrs.lic_plate_num = ["License plate already registered"];
+    }
+
+    if (Object.keys(updatedErrs).length > 0) {
+      updateErrors(updatedErrs);
+      return;
+    }
+
+    save();
   };
 
   const handleCancel = (e) => {
@@ -187,6 +203,7 @@ export default function CarRegistrationForm() {
               onChange={handleDriverChange}
               placeholder="e.g., Eduardo"
             />
+            <p className="text-xs text-red-600">{errors.driver["0"]}</p>
           </div>
 
           {/* Last Name */}
@@ -199,6 +216,7 @@ export default function CarRegistrationForm() {
               onChange={handleDriverChange}
               placeholder="e.g., Lopez"
             />
+            <p className="text-xs text-red-600">{errors.driver["1"]}</p>
           </div>
 
           {/* Phone */}
@@ -212,6 +230,7 @@ export default function CarRegistrationForm() {
               onChange={handleDriverChange}
               placeholder="e.g., (555) 555-5555"
             />
+            <p className="text-xs text-red-600">{errors.driver["2"]}</p>
           </div>
         </div>
       </div>

@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
 import { Card, CardContent } from "./ui/card";
 
+import FormProgress from "./FormProgress";
+
 type WizardCtx = {
   stepIndex: number;
   totalSteps: number;
@@ -54,20 +56,22 @@ export default function MultiPageForm({
   return (
     <WizardContext.Provider value={value}>
       {/* Write a component here that has a progression of how far along you are in the process */}
+      <div className=" flex flex-col gap-4">
+        <FormProgress length={totalSteps} currentIndex={stepIndex} />
+        <Card className="min-w-lg min-h-32">
+          <CardContent className="space-y-6">
+            <header className="space-y-1">
+              <div className="font-medium">{title}</div>
+              <div className="text-sm opacity-70">
+                Page {stepIndex + 1} of {totalSteps}
+              </div>
+            </header>
 
-      <Card className="min-w-lg min-h-32">
-        <CardContent className="space-y-6">
-          <header className="space-y-1">
-            <div className="font-medium">{title}</div>
-            <div className="text-sm opacity-70">
-              Page {stepIndex + 1} of {totalSteps}
-            </div>
-          </header>
-
-          {/* Step body (page controls its own nav/buttons) */}
-          <div className="space-y-6">{ActiveStep.render()}</div>
-        </CardContent>
-      </Card>
+            {/* Step body (page controls its own nav/buttons) */}
+            <div className="space-y-6">{ActiveStep.render()}</div>
+          </CardContent>
+        </Card>
+      </div>
     </WizardContext.Provider>
   );
 }

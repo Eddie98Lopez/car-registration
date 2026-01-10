@@ -3,9 +3,15 @@
 import React, { createContext, useContext, useReducer } from "react";
 
 export type Driver = {
-  firstName: string;
-  lastName: string;
-  phone: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+};
+
+export type DriverErrors = {
+  0?: string[];
+  1?: string[];
+  2?: string[];
 };
 
 export type Vehicle = {
@@ -23,7 +29,7 @@ export type VehicleErrors = {
   year?: string[]; // keep as string for inputs; cast later
   lic_plate_num?: string[];
   judge_category?: string[];
-  driver?: Driver;
+  driver?: DriverErrors;
 };
 
 export const defaultVehicle: Vehicle = {
@@ -41,6 +47,7 @@ const defaultErrors = {
   year: [""], // keep as string for inputs; cast later
   lic_plate_num: [""],
   judge_category: [""],
+  driver: { 0: [""], 1: [""], 2: [""] },
 };
 
 type Mode = "list" | "form";
@@ -95,6 +102,7 @@ function reducer(state: State, action: Action): State {
         mode: "form",
         editIndex: null,
         formValues: defaultVehicle,
+        formValueErrs: defaultErrors,
       };
 
     case "START_EDIT": {
