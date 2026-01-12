@@ -25,6 +25,7 @@ export default function VendorWizard() {
           steps={[
             {
               id: "contact",
+              title: "Contact Information",
               render: () => (
                 <ContactInfoStep contact={contact} setContact={setContact} />
               ),
@@ -33,10 +34,12 @@ export default function VendorWizard() {
             {
               id: "register",
               render: () => <CarRegistrationPage />,
+              title: "Vehicle Registration",
             },
             {
               id: "review",
               render: () => <ReviewPage contact={contact} />,
+              title: "Review",
             },
           ]}
         />

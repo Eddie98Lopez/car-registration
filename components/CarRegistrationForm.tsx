@@ -10,7 +10,6 @@ import { vehicleSchema, driverSchema } from "./utils/vehicleSchema";
 import { VehicleErrors } from "./VehicleProvider";
 import { validateFormFields } from "./utils/vehicleSchema";
 import { checkForExistingPlate } from "./utils/vehicleSchema";
-import { omit } from "zod/mini";
 
 function omitKey<T extends Record<string, any>>(
   original: T,
