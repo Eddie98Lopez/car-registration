@@ -6,15 +6,15 @@ import { Separator } from "@radix-ui/react-separator";
 import { Button } from "./ui/button";
 import { useWizard } from "./MulitPageForm";
 import Image from "next/image";
-import { Item, ItemActions, ItemContent } from "./ui/item";
-import { Truck, User } from "lucide-react";
+import { Item, ItemContent } from "./ui/item";
+import { User } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
 const registrationPrice = 250;
 
 export const ContactInfoItem = ({ contact }) => {
-  console.log(contact);
+  //console.log(contact);
   const { firstName, lastName, email, phone, orgName, address } = contact;
   return (
     <Item variant="outline">

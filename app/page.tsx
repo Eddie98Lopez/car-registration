@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import MultiPageForm from "@/components/MulitPageForm";
 import { ContactInfoStep } from "@/components/ContactInfoForm";
-//import { ExampleSaveStep } from "@/components/ExampleSaveStep";
 import CarRegistrationPage from "@/components/CarRegistrationPage";
 import { VehicleRegistrationProvider } from "@/components/VehicleProvider";
 import ReviewPage from "@/components/ReviewPage";

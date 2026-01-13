@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Progress } from "@/components/ui/progress";
 import { Item, ItemContent } from "./ui/item";
 import { Button } from "./ui/button";
 import { Check } from "lucide-react";
 
-type StepStatus = "not complete" | "current" | "complete";
-const setStatusStyleClass = (stepIndex, currentIndex) => {
+const setStatusStyleClass = (
+  stepIndex: number,
+  currentIndex: number
+): string => {
   if (stepIndex < currentIndex) {
     return "border-black border";
   } else if (stepIndex == currentIndex) {
@@ -15,7 +17,26 @@ const setStatusStyleClass = (stepIndex, currentIndex) => {
   }
 };
 
-const ProgressStep = ({ stepIndex, title, currentIndex }) => {
+type ProgressStepProps = {
+  stepIndex: number;
+  title?: string;
+  currentIndex: number;
+};
+
+type FormProgressProps = {
+  steps: Array<{
+    id: string;
+    title?: string;
+    render: () => React.ReactNode;
+  }>;
+  currentIndex: number;
+};
+
+const ProgressStep = ({
+  stepIndex,
+  title,
+  currentIndex,
+}: ProgressStepProps) => {
   const statusStyle = setStatusStyleClass(stepIndex, currentIndex);
   return (
     <li className="text-center w-24 ">
@@ -30,10 +51,9 @@ const ProgressStep = ({ stepIndex, title, currentIndex }) => {
   );
 };
 
-const FormProgress = ({ length, currentIndex, steps }) => {
-  const value = (currentIndex / (length - 1)) * 100;
-
-  const widthFraction = `w-${length - 1}/${length}`.toString();
+const FormProgress = ({ currentIndex, steps }: FormProgressProps) => {
+  const value = (currentIndex / (steps.length - 1)) * 100;
+  const widthFraction = `w-${steps.length - 1}/${steps.length}`.toString();
 
   return (
     <Item variant="default" className=" ">
