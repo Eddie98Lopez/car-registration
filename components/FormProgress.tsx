@@ -70,7 +70,7 @@ const FormProgress = ({ currentIndex, steps }: FormProgressProps) => {
         </ul>
         <Progress
           value={value}
-          className={`${widthFraction} place-self-center absolute top-3 z-0`}
+          className={`w-3/4 place-self-center absolute top-3 z-0`}
         />
       </ItemContent>
     </Item>

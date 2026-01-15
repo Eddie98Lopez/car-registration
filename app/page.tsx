@@ -6,6 +6,7 @@ import { ContactInfoStep } from "@/components/ContactInfoForm";
 import CarRegistrationPage from "@/components/CarRegistrationPage";
 import { VehicleRegistrationProvider } from "@/components/VehicleProvider";
 import ReviewPage from "@/components/ReviewPage";
+import PayPage from "@/components/PayPage";
 
 export default function VendorWizard() {
   const [contact, setContact] = useState({
@@ -39,6 +40,11 @@ export default function VendorWizard() {
               id: "review",
               render: () => <ReviewPage contact={contact} />,
               title: "Review",
+            },
+            {
+              id: "pay",
+              render: () => <PayPage />,
+              title: "Pay",
             },
           ]}
         />
