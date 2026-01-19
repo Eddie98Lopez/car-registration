@@ -21,14 +21,14 @@ export default function Checkout() {
     return await fetchClientSecret(length);
   };
   return (
-    <div id="checkout">
+    <div id="checkout" className="p-0 m-0">
       <EmbeddedCheckoutProvider
         stripe={stripePromise}
         options={{
           fetchClientSecret: () => fetchClientSecret(length),
         }}
       >
-        <EmbeddedCheckout />
+        <EmbeddedCheckout className="p-0 m-0" />
       </EmbeddedCheckoutProvider>
     </div>
   );

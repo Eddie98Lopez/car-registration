@@ -1,13 +1,8 @@
 import React from "react";
 import Checkout from "./Checkout";
-import { FormPage } from "./FormPage";
 
 const PayPage = () => {
-  return (
-    <FormPage>
-      <Checkout />
-    </FormPage>
-  );
+  return <Checkout />;
 };
 
 export default PayPage;

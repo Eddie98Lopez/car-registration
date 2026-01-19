@@ -7,6 +7,7 @@ import CarRegistrationPage from "@/components/CarRegistrationPage";
 import { VehicleRegistrationProvider } from "@/components/VehicleProvider";
 import ReviewPage from "@/components/ReviewPage";
 import PayPage from "@/components/PayPage";
+import Checkout from "@/components/Checkout";
 
 export default function VendorWizard() {
   const [contact, setContact] = useState({
@@ -43,7 +44,7 @@ export default function VendorWizard() {
             },
             {
               id: "pay",
-              render: () => <PayPage />,
+              render: () => <Checkout />,
               title: "Pay",
             },
           ]}

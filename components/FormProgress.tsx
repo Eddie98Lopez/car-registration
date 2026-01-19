@@ -6,7 +6,7 @@ import { Check } from "lucide-react";
 
 const setStatusStyleClass = (
   stepIndex: number,
-  currentIndex: number
+  currentIndex: number,
 ): string => {
   if (stepIndex < currentIndex) {
     return "border-black border";
@@ -53,7 +53,7 @@ const ProgressStep = ({
 
 const FormProgress = ({ currentIndex, steps }: FormProgressProps) => {
   const value = (currentIndex / (steps.length - 1)) * 100;
-  const widthFraction = `w-${steps.length - 1}/${steps.length}`.toString();
+  const widthFraction = ((steps.length - 1) / steps.length) * 100;
 
   return (
     <Item variant="default" className=" ">
@@ -70,7 +70,8 @@ const FormProgress = ({ currentIndex, steps }: FormProgressProps) => {
         </ul>
         <Progress
           value={value}
-          className={`w-3/4 place-self-center absolute top-3 z-0`}
+          className={`place-self-center absolute top-3 z-0`}
+          style={{ width: `${widthFraction}%` }}
         />
       </ItemContent>
     </Item>
