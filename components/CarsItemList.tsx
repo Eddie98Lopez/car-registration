@@ -43,8 +43,8 @@ const CarsItem = ({ car, handleEdit, handleDelete }) => {
         </div>
 
         <div>
-          <p>
-            {make}-{model}-{year}
+          <p className="font-bold">
+            {make}-{model.toUpperCase()}-{year}
           </p>
           <p>
             {driver.firstName} {driver.lastName}

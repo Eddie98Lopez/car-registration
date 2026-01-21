@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import { FormPageNav, FormPage } from "./FormPage";
 import { useVehicleRegistration } from "./VehicleProvider";
 import { CarsItemList, CarsItem } from "./CarsItemList";
@@ -16,6 +17,8 @@ const registrationPrice = 250;
 export const ContactInfoItem = ({ contact }) => {
   //console.log(contact);
   const { firstName, lastName, email, phone, orgName, address } = contact;
+  const { goTo } = useWizard();
+
   return (
     <Item variant="outline">
       <ItemContent className="flex flex-row w-full items-center gap-8">
@@ -23,14 +26,21 @@ export const ContactInfoItem = ({ contact }) => {
           <User className="h-10 w-10" />
         </div>
         <div>
-          <p>
+          <p className="font-bold">
             {firstName} {lastName}
           </p>
           <p>{orgName}</p>
           <p>{address}</p>
           <p>{phone}</p>
         </div>
-        <div> edit button</div>
+        <Button variant="ghost" onClick={() => goTo(0)} className="ml-auto">
+          <Image
+            src="/icons/icon/edit.png"
+            alt="edit contact information"
+            width={24}
+            height={24}
+          />
+        </Button>
       </ItemContent>
     </Item>
   );
@@ -39,8 +49,15 @@ export const ContactInfoItem = ({ contact }) => {
 const ReviewPage = ({ contact }) => {
   const { state, startEdit, remove } = useVehicleRegistration();
   const wizard = useWizard();
+  const [checked, setChecked] = useState(false);
+  useEffect(() => {
+    state.items.length == 0 && wizard.goTo(1);
+  }, [state]);
   return (
-    <FormPage>
+    <FormPage
+      title="Review Information"
+      description="Please carefully review all informaiton to check to accuracy."
+    >
       <div className="flex flex-col gap-6">
         <div>
           <div className="flex justify-start gap-3 items-center">
@@ -86,7 +103,11 @@ const ReviewPage = ({ contact }) => {
         </div>
 
         <div className="flex items-center gap-3">
-          <Checkbox id="terms" />
+          <Checkbox
+            id="terms"
+            checked={checked}
+            onCheckedChange={() => setChecked(!checked)}
+          />
           <Label htmlFor="terms">
             I agree that I have read and will abide by the Trucks Show rules.
           </Label>
@@ -101,7 +122,7 @@ const ReviewPage = ({ contact }) => {
             Prev
           </Button>
 
-          <Button onClick={wizard.goNext} disabled={wizard.isLast}>
+          <Button onClick={wizard.goNext} disabled={!checked}>
             Continue To Pay
           </Button>
         </FormPageNav>

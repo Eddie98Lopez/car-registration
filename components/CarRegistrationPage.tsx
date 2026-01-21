@@ -14,7 +14,10 @@ const CarRegistrationPage = () => {
   const disabled = !(state.items.length >= 1);
 
   return (
-    <FormPage>
+    <FormPage
+      title="Car Show Registration"
+      description="You can enter a maximum of 5 vehicles into the show."
+    >
       {state.mode == "list" && (
         <CarsItemList cars={state.items}>
           {state.items.map((car, i) => {

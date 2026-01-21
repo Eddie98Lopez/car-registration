@@ -16,7 +16,9 @@ export function FormPage({
       {(title || description) && (
         <div className="space-y-1">
           {title && <h2 className="text-base font-medium">{title}</h2>}
-          {description && <p className="text-sm opacity-70">{description}</p>}
+          {description && (
+            <p className="text-sm opacity-70 max-w-[470px]">{description}</p>
+          )}
         </div>
       )}
 

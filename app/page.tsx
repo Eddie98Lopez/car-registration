@@ -21,7 +21,7 @@ export default function VendorWizard() {
 
   return (
     <VehicleRegistrationProvider>
-      <div className="flex min-h-screen items-start justify-center bg-zinc-50 font-sans dark:bg-black">
+      <div className="flex min-h-screen items-start justify-center bg-zinc-50 font-sans dark:bg-black p-10">
         <MultiPageForm
           steps={[
             {
