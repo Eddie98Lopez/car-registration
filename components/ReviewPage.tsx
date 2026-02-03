@@ -52,7 +52,7 @@ const ReviewPage = ({ contact }) => {
   const [checked, setChecked] = useState(false);
   useEffect(() => {
     state.items.length == 0 && wizard.goTo(1);
-  }, [state]);
+  }, [state.items]);
   return (
     <FormPage
       title="Review Information"
