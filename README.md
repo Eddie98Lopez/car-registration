@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Intake
 
-## Getting Started
+A multi-step vehicle registration and payment system for car shows. One submission, up to five vehicles, embedded payment — no redirects.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Background
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Inspired by a real client project that used Wix Forms for a truck show registration. It worked, but two things broke the experience: no multi-vehicle entries, and a payment redirect that killed conversions. Intake is the rebuild with full control over both.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## How It Works
 
-## Learn More
+**Step 1 — Contact Info**
+Organizer details. Supports individual registrants and org representatives submitting for a group.
 
-To learn more about Next.js, take a look at the following resources:
+**Step 2 — Vehicle Entries**
+Add up to five vehicles. Each entry takes make, model, year, nickname, license plate, and judging category. License plate is used as a unique identifier — no duplicate entries, one vehicle per judging category.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Step 3 — Review**
+Full summary before payment. Edit or delete entries from this page. Deleting all vehicles bounces you back to Step 2.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Step 4 — Payment**
+Embedded Stripe form, inline. Total is calculated by number of vehicles × base registration fee.
 
-## Deploy on Vercel
+A step indicator lives at the top of the form throughout so users always know where they are.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Tech Stack
+
+| | |
+|---|---|
+| Next.js | Framework |
+| React Context API | Form state |
+| Zod | Validation |
+| Stripe.js + Server Actions | Embedded payment |
+| shadcn/ui + Tailwind | UI |
+
+---
+
+## Status
+
+**Frontend MVP is complete.** Full form flow works end-to-end with Stripe in test mode.
+
+**Backend is planned, not yet built.** Supabase (PostgreSQL) will handle form submissions in a `pending` state, with a Stripe webhook flipping status to `confirmed` on payment completion.
+
+---
+
+## Next Steps
+
+- [ ] Supabase integration
+- [ ] Stripe webhook handler
+- [ ] UI redesign for the car enthusiast audience
+
+---
+
+> **Intake** — named for what the form does, and what's under the hood.
