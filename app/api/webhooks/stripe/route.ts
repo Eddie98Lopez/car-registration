@@ -1,18 +1,24 @@
 import { headers } from "next/headers";
 import stripe from "@/lib/stripe";
+import Stripe from "stripe";
 import { NextResponse, NextRequest } from "next/server";
 
 const endpointSecret = process.env.STRIPEWEBHOOKSECRET;
 
 if (!endpointSecret) {
-  throw Error("enpoint secret needed");
+  throw new Error("STRIPEWEBHOOKSECRET env var is required");
 }
 
-export async function POST(req) {
-  const payload = await req.body;
+export async function POST(req: NextRequest) {
+  const payload = await req.text();
   const sig = (await headers()).get("stripe-signature");
 
-  let event;
+  if (!sig) {
+    return new NextResponse("Missing signature", { status: 400 });
+  }
+
+  let event: Stripe.Event;
+
   try {
     event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
   } catch (err) {
@@ -23,7 +29,8 @@ export async function POST(req) {
     event.type === "checkout.session.completed" ||
     "checkout.session.async_payment_succeeded"
   ) {
-    fulfillCheckout(event.data.object.id);
+    const session = event.data.object as Stripe.Checkout.Session;
+    fulfillCheckout(session.id);
   }
 
   return NextResponse.json("");
