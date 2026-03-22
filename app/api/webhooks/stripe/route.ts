@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(payload, sig, endpointSecret!);
   } catch (err) {
     return NextResponse.json(err, { status: 500 });
   }
