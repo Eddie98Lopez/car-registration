@@ -3,13 +3,18 @@ import stripe from "@/lib/stripe";
 import Stripe from "stripe";
 import { NextResponse, NextRequest } from "next/server";
 
-const endpointSecret = process.env.STRIPEWEBHOOKSECRET;
+// const endpointSecret = process.env.STRIPEWEBHOOKSECRET;
 
-if (!endpointSecret) {
-  throw new Error("STRIPEWEBHOOKSECRET env var is required");
-}
+// if (!endpointSecret) {
+//   throw new Error("STRIPEWEBHOOKSECRET env var is required");
+// }
 
 export async function POST(req: NextRequest) {
+  const endpointSecret = process.env.STRIPEWEBHOOKSECRET;
+  if (!endpointSecret) {
+    // Not wired up yet — fail safe at runtime instead of crashing the build.
+    return new NextResponse("Webhook not configured", { status: 503 });
+  }
   const payload = await req.text();
   const sig = (await headers()).get("stripe-signature");
 
