@@ -16,7 +16,7 @@ const registrationPrice = 250;
 
 export const ContactInfoItem = ({ contact }) => {
   //console.log(contact);
-  const { firstName, lastName, email, phone, orgName, address } = contact;
+  const { firstName, lastName, phone, orgName, address } = contact;
   const { goTo } = useWizard();
 
   return (

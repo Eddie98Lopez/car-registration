@@ -1,3 +1,4 @@
+@import url("https://use.typekit.net/rzq3hcn.css");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -37,6 +38,42 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+
+  /* Figma ds tokens exposed as Tailwind colors:
+     bg-surface-base, text-text-secondary, border-error-base, etc. */
+  --color-bg-base: var(--ds-background-base);
+  --color-bg-subtle: var(--ds-background-subtle);
+  --color-bg-emphasis: var(--ds-background-emphasis);
+  --color-surface-base: var(--ds-surface-base);
+  --color-surface-subtle: var(--ds-surface-subtle);
+  --color-surface-emphasis: var(--ds-surface-emphasis);
+  --color-primary-base: var(--ds-primary-base);
+  --color-primary-subtle: var(--ds-primary-subtle);
+  --color-primary-emphasis: var(--ds-primary-emphasis);
+  --color-secondary-base: var(--ds-secondary-base);
+  --color-secondary-subtle: var(--ds-secondary-subtle);
+  --color-secondary-emphasis: var(--ds-secondary-emphasis);
+  --color-success-base: var(--ds-success-base);
+  --color-success-subtle: var(--ds-success-subtle);
+  --color-success-emphasis: var(--ds-success-emphasis);
+  --color-error-base: var(--ds-error-base);
+  --color-error-subtle: var(--ds-error-subtle);
+  --color-error-emphasis: var(--ds-error-emphasis);
+  --color-warning-base: var(--ds-warning-base);
+  --color-warning-subtle: var(--ds-warning-subtle);
+  --color-warning-emphasis: var(--ds-warning-emphasis);
+  --color-info-base: var(--ds-info-base);
+  --color-info-subtle: var(--ds-info-subtle);
+  --color-info-emphasis: var(--ds-info-emphasis);
+  --color-text-base: var(--ds-text-base);
+  --color-text-secondary: var(--ds-text-secondary);
+  --color-text-subtle: var(--ds-text-subtle);
+  --color-text-inverse: var(--ds-text-inverse);
+  --color-text-accent: var(--ds-text-accent);
+  --color-icon-base: var(--ds-icon-base);
+  --color-border-base: var(--ds-border-base);
+  --color-border-emphasis: var(--ds-border-emphasis);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -47,72 +84,154 @@
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  /* static decorative gradient — kept in :root so var(--chrome-gradient) resolves.
+     Use as: className="bg-[image:var(--chrome-gradient)]" */
+  --chrome-gradient: linear-gradient(
+    180deg,
+    #d1d3d4 0%,
+    #fff 10%,
+    #97999c 25%,
+    #d1d3d4 30%,
+    #58595b 65%,
+    #9c9c9c 75%,
+    #1c1c1c 80%,
+    #fefefe 90%,
+    #afb1b4 100%
+  );
+  --font-body: termina, sans-serif;
+
+  /* ============================================================
+     ds TOKENS — synced from Figma (primitives live in Figma,
+     not here). Re-export and paste this block to update.
+     ============================================================ */
+
+  /* background */
+  --ds-background-base: #d7dadd;
+  --ds-background-subtle: #f5f6f7;
+  --ds-background-emphasis: #9ba1aa;
+
+  /* surface */
+  --ds-surface-base: #f5f6f7;
+  --ds-surface-subtle: #f7f6f5;
+  --ds-surface-emphasis: #b9bec3;
+
+  /* primary */
+  --ds-primary-base: #e327fc;
+  --ds-primary-subtle: #f3b5fb;
+  --ds-primary-emphasis: #6c067a;
+
+  /* secondary */
+  --ds-secondary-base: #7e2ce5;
+  --ds-secondary-subtle: #ceb2f1;
+  --ds-secondary-emphasis: #4a1190;
+
+  /* success */
+  --ds-success-base: #30a46c;
+  --ds-success-subtle: #89d7b1;
+  --ds-success-emphasis: #1f6242;
+
+  /* error */
+  --ds-error-base: #e5484d;
+  --ds-error-subtle: #eda0a2;
+  --ds-error-emphasis: #94191d;
+
+  /* warning */
+  --ds-warning-base: #f5bd24;
+  --ds-warning-subtle: #f7e8c0;
+  --ds-warning-emphasis: #98720c;
+
+  /* info */
+  --ds-info-base: #1f43f4;
+  --ds-info-subtle: #8c9ef3;
+  --ds-info-emphasis: #0c2395;
+
+  /* text */
+  --ds-text-base: #150627;
+  --ds-text-secondary: #7c8591;
+  --ds-text-subtle: #bfbbb4;
+  --ds-text-inverse: #fefefe;
+  --ds-text-accent: #b406cb;
+
+  /* border */
+  --ds-border-base: #7c8591;
+  --ds-border-emphasis: #7c8591;
+
+  /* icon */
+  --ds-icon-base: #5b12b5;
+
+  --ds-button-font: basset-one, sans-serif;
+
+  /* ============================================================
+     shadcn slots — alias the ds tokens above
+     ============================================================ */
+  /* ---- shadcn slots -> Figma ds tokens ---- */
+  --radius: 0rem;
+
+  --background: var(--ds-background-base);
+  --foreground: var(--ds-text-base);
+
+  --card: var(--ds-surface-base);
+  --card-foreground: var(--ds-text-base);
+  --popover: var(--ds-surface-base);
+  --popover-foreground: var(--ds-text-base);
+
+  --primary: var(--ds-primary-base);
+  --primary-foreground: var(--ds-text-base);
+  --secondary: var(--ds-secondary-base);
+  --secondary-foreground: var(--ds-text-inverse);
+
+  --muted: var(--ds-background-subtle);
+  --muted-foreground: var(--ds-text-secondary);
+  --accent: var(--ds-primary-subtle);
+  --accent-foreground: var(--ds-primary-emphasis);
+
+  --destructive: var(--ds-error-base);
+
+  --border: var(--ds-border-base);
+  --input: var(--ds-border-base);
+  --ring: var(--ds-primary-base);
+
+  --chart-1: var(--ds-primary-base);
+  --chart-2: var(--ds-secondary-base);
+  --chart-3: var(--ds-info-base);
+  --chart-4: var(--ds-success-base);
+  --chart-5: var(--ds-warning-base);
+
+  --sidebar: var(--ds-surface-base);
+  --sidebar-foreground: var(--ds-text-base);
+  --sidebar-primary: var(--ds-primary-base);
+  --sidebar-primary-foreground: var(--ds-text-base);
+  --sidebar-accent: var(--ds-primary-subtle);
+  --sidebar-accent-foreground: var(--ds-primary-emphasis);
+  --sidebar-border: var(--ds-border-base);
+  --sidebar-ring: var(--ds-primary-base);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  /* Derived dark theme — Figma export is single-mode. These re-declare the
+     ds tokens with dark values; replace with a real Figma dark export
+     when available. */
+  --ds-background-base: #151719; /* neutral-cold 9 */
+  --ds-background-subtle: #2f3237; /* neutral-cold 8 */
+  --ds-background-emphasis: #484e55; /* neutral-cold 7 */
+  --ds-surface-base: #2f3237; /* neutral-cold 8 */
+  --ds-surface-subtle: #191715; /* neutral-warm 9 */
+  --ds-surface-emphasis: #484e55; /* neutral-cold 7 */
+
+  --ds-primary-subtle: #6c067a; /* primary 8 */
+  --ds-secondary-subtle: #270b49; /* secondary 8 */
+
+  --ds-text-base: #f5f6f7; /* neutral-cold 1 */
+  --ds-text-secondary: #9ba1aa; /* neutral-cold 4 */
+  --ds-text-subtle: #626974; /* neutral-cold 6 */
+  --ds-text-inverse: #150627; /* secondary 9 */
+
+  --ds-border-base: #484e55; /* neutral-cold 7 */
+  --ds-border-emphasis: #484e55;
+
+  /* slot overrides where the light mapping doesn't invert cleanly */
+  --primary-foreground: #150627;
+  --destructive: #e87579; /* error 4 */
 }
 
 @layer base {
@@ -122,4 +241,30 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+    linear-gradient(
+      305deg,
+      var(--primitive-colors-secondary-secondary-8, rgba(39, 11, 73, 0.7))
+        51.04%,
+      var(--semantic-primary-base, rgba(227, 39, 252, 0.7)) 88.45%
+    ),
+    url("/background-1.jpg") 80% / cover no-repeat,
+    #1d1d1d;
+
+  background-blend-mode: multiply, overlay, normal, multiply;
+  background-color: unset;
+  font-family: franklin-gothic-atf, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+label {
+  font-family: termina, sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.7rem;
 }

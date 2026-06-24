@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
 import { CarsItemList, CarsItem } from "./CarsItemList";
 import { FormPageNav, FormPage } from "./FormPage";
 import { Button } from "./ui/button";
@@ -7,7 +7,7 @@ import CarRegistrationForm from "./CarRegistrationForm";
 import { useVehicleRegistration } from "./VehicleProvider";
 
 const CarRegistrationPage = () => {
-  const [editState, setEditState] = useState(false);
+  // const [editState, setEditState] = useState(false);
   const { state, startCreate, startEdit, remove } = useVehicleRegistration();
 
   const wizard = useWizard();

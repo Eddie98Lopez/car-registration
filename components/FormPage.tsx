@@ -15,7 +15,11 @@ export function FormPage({
     <section className="space-y-4">
       {(title || description) && (
         <div className="space-y-1">
-          {title && <h2 className="text-base font-medium">{title}</h2>}
+          {title && (
+            <h2 className="font-medium font-[family-name:basset-four] text-3xl text-(--ds-text-accent)">
+              {title}
+            </h2>
+          )}
           {description && (
             <p className="text-sm opacity-70 max-w-[470px]">{description}</p>
           )}

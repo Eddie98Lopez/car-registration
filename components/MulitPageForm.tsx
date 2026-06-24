@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { Card, CardContent } from "./ui/card";
 
 import FormProgress from "./FormProgress";
@@ -32,10 +32,7 @@ type MultiPageFormProps = {
   }>;
 };
 
-export default function MultiPageForm({
-  title = "Multipage form",
-  steps,
-}: MultiPageFormProps) {
+export default function MultiPageForm({ steps }: MultiPageFormProps) {
   const [stepIndex, setStepIndex] = useState(0);
 
   const totalSteps = steps.length;
@@ -47,18 +44,23 @@ export default function MultiPageForm({
   const goTo = (index: number) =>
     setStepIndex(Math.max(0, Math.min(index, totalSteps - 1)));
 
-  const value = useMemo<WizardCtx>(
-    () => ({ stepIndex, totalSteps, isFirst, isLast, goNext, goPrev, goTo }),
-    [stepIndex, totalSteps, isFirst, isLast]
-  );
+  const value: WizardCtx = {
+    stepIndex,
+    totalSteps,
+    isFirst,
+    isLast,
+    goNext,
+    goPrev,
+    goTo,
+  };
 
   const ActiveStep = steps[stepIndex];
 
   return (
     <WizardContext.Provider value={value}>
-      <div className=" flex flex-col gap-4">
+      <div className=" flex flex-col gap-4 ">
         <FormProgress currentIndex={stepIndex} steps={steps} />
-        <Card className="min-w-lg min-h-32">
+        <Card className="min-w-xl min-h-32 border-6 border-solid [border-image:var(--chrome-gradient)_1]">
           <CardContent className="space-y-6">
             {/* Step body (page controls its own nav/buttons) */}
             <div className="space-y-6">{ActiveStep.render()}</div>

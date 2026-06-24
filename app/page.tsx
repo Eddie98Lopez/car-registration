@@ -1,55 +1,27 @@
 "use client";
 
 import React, { useState } from "react";
-import MultiPageForm from "@/components/MulitPageForm";
-import { ContactInfoStep } from "@/components/ContactInfoForm";
-import CarRegistrationPage from "@/components/CarRegistrationPage";
-import { VehicleRegistrationProvider } from "@/components/VehicleProvider";
-import ReviewPage from "@/components/ReviewPage";
-import PayPage from "@/components/PayPage";
-import Checkout from "@/components/Checkout";
+import Link from "next/link";
 
-export default function VendorWizard() {
-  const [contact, setContact] = useState({
-    orgName: "",
-    address: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-  });
+import { Button } from "@/components/ui/button";
 
+export default function Home() {
   return (
-    <VehicleRegistrationProvider>
-      <div className="flex min-h-screen items-start justify-center bg-zinc-50 font-sans dark:bg-black p-10">
-        <MultiPageForm
-          steps={[
-            {
-              id: "contact",
-              title: "Contact Information",
-              render: () => (
-                <ContactInfoStep contact={contact} setContact={setContact} />
-              ),
-            },
-
-            {
-              id: "register",
-              render: () => <CarRegistrationPage />,
-              title: "Vehicle Registration",
-            },
-            {
-              id: "review",
-              render: () => <ReviewPage contact={contact} />,
-              title: "Review",
-            },
-            {
-              id: "pay",
-              render: () => <Checkout />,
-              title: "Pay",
-            },
-          ]}
-        />
-      </div>
-    </VehicleRegistrationProvider>
+    <div className="w-full h-[100vh] grid place-content-center place-items-center gap-2">
+      <h3 className="text-center text-(--ds-text-inverse) uppercase font-bold text-2xl font-[family-name:termina] w-max tracking-[.15em] ml-5 animate__animated animate__fadeInLeft">{`Turlocks's 5'th Annual`}</h3>
+      <h1 className="text-center flex flex-col items-center justify-center text-(--ds-text-inverse) font-[family-name:basset-four] text-[12rem]/[85%] my-0">
+        <span className="block w-max animate__animated animate__fadeInLeft">
+          Truck
+        </span>{" "}
+        <span className="block w-max animate__animated animate__fadeInLeft">
+          Show
+        </span>
+      </h1>
+      <Link href={"/register"}>
+        <Button className="text-5xl h-[80px] mt-8 -skew-x-6 px-8">
+          Register Truck
+        </Button>
+      </Link>
+    </div>
   );
 }

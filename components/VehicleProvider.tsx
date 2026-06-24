@@ -77,9 +77,9 @@ type Action =
 
 function cloneVehicle(v: Vehicle): Vehicle {
   // structuredClone exists in modern browsers; JSON fallback is fine for plain data
-  // @ts-ignore
+  // @ts-expect-ignore
   return typeof structuredClone === "function"
-    ? // @ts-ignore
+    ? // @ts-expect-ignore
       structuredClone(v)
     : JSON.parse(JSON.stringify(v));
 }
@@ -169,7 +169,7 @@ function reducer(state: State, action: Action): State {
       }
 
       const nextItems = state.items.map((v, i) =>
-        i === state.editIndex ? state.formValues : v
+        i === state.editIndex ? state.formValues : v,
       );
 
       return {
@@ -226,7 +226,7 @@ export function VehicleRegistrationProvider({
   const [state, dispatch] = useReducer(
     reducer,
     initialItems,
-    createInitialState
+    createInitialState,
   );
 
   return (
@@ -240,7 +240,7 @@ export function useVehicleRegistration() {
   const ctx = useContext(VehicleRegContext);
   if (!ctx) {
     throw new Error(
-      "useVehicleRegistration must be used within VehicleRegistrationProvider"
+      "useVehicleRegistration must be used within VehicleRegistrationProvider",
     );
   }
 
